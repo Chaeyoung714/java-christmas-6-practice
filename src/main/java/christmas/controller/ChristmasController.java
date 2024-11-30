@@ -2,8 +2,8 @@ package christmas.controller;
 
 import christmas.dto.BenefitResultDto;
 import christmas.dto.ReservationResultDto;
-import christmas.model.benefit.Badge;
 import christmas.model.benefit.BenefitHistories;
+import christmas.model.benefitPolicy.Badge;
 import christmas.model.reservation.Reservation;
 import christmas.service.BadgeService;
 import christmas.service.BenefitService;

@@ -1,7 +1,7 @@
 package christmas.dto;
 
-import christmas.model.benefit.Badge;
 import christmas.model.benefit.BenefitHistories;
+import christmas.model.benefitPolicy.Badge;
 import christmas.model.reservation.Reservation;
 import java.util.Optional;
 

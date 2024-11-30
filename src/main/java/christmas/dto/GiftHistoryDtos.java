@@ -1,7 +1,7 @@
 package christmas.dto;
 
 import christmas.model.benefit.GiftHistory;
-import christmas.model.benefit.GiftPolicy;
+import christmas.model.benefitPolicy.GiftPolicy;
 import java.util.ArrayList;
 import java.util.List;
 

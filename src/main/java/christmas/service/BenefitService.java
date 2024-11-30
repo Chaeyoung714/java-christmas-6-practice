@@ -1,16 +1,18 @@
 package christmas.service;
 
-import static christmas.model.benefit.DiscountPolicy.CHRISTMAS_DISCOUNT;
-import static christmas.model.benefit.DiscountPolicy.SPECIAL_DISCOUNT;
-import static christmas.model.benefit.DiscountPolicy.WEEKDAY_DISCOUNT;
-import static christmas.model.benefit.DiscountPolicy.WEEKEND_DISCOUNT;
+
+
+import static christmas.model.benefitPolicy.DiscountPolicy.CHRISTMAS_DISCOUNT;
+import static christmas.model.benefitPolicy.DiscountPolicy.SPECIAL_DISCOUNT;
+import static christmas.model.benefitPolicy.DiscountPolicy.WEEKDAY_DISCOUNT;
+import static christmas.model.benefitPolicy.DiscountPolicy.WEEKEND_DISCOUNT;
 
 import christmas.dto.GiftDto;
 import christmas.model.benefit.BenefitHistories;
 import christmas.model.benefit.DiscountHistory;
-import christmas.model.benefit.DiscountPolicy;
 import christmas.model.benefit.GiftHistory;
-import christmas.model.benefit.GiftPolicy;
+import christmas.model.benefitPolicy.DiscountPolicy;
+import christmas.model.benefitPolicy.GiftPolicy;
 import christmas.model.reservation.Menu;
 import christmas.model.reservation.MenuType;
 import christmas.model.reservation.Reservation;

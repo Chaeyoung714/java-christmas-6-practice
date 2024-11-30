@@ -1,5 +1,6 @@
 package christmas.model.benefit;
 
+import christmas.model.benefitPolicy.GiftPolicy;
 import christmas.model.reservation.Menu;
 
 public class GiftHistory {

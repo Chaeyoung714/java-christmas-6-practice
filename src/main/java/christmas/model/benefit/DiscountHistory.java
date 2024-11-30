@@ -1,6 +1,8 @@
 package christmas.model.benefit;
 
 
+import christmas.model.benefitPolicy.DiscountPolicy;
+
 public class DiscountHistory {
     private final DiscountPolicy discountPolicy;
     private final int discountAmount;

@@ -1,7 +1,7 @@
 package christmas.service;
 
-import christmas.model.benefit.Badge;
 import christmas.model.benefit.BenefitHistories;
+import christmas.model.benefitPolicy.Badge;
 import java.util.Optional;
 
 public class BadgeService {

@@ -1,4 +1,4 @@
-package christmas.model.benefit;
+package christmas.model.benefitPolicy;
 
 import christmas.dto.GiftDto;
 

@@ -3,8 +3,8 @@ package christmas;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.model.benefit.BenefitHistories;
-import christmas.model.benefit.DiscountPolicy;
-import christmas.model.benefit.GiftPolicy;
+import christmas.model.benefitPolicy.DiscountPolicy;
+import christmas.model.benefitPolicy.GiftPolicy;
 import christmas.model.reservation.Order;
 import christmas.model.reservation.Reservation;
 import christmas.repository.MenuRepository;
@@ -12,7 +12,6 @@ import christmas.repository.MenuRepositoryImpl;
 import christmas.service.BenefitService;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class FunctionTest {
