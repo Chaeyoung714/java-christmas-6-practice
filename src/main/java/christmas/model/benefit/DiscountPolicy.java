@@ -54,7 +54,7 @@ public enum DiscountPolicy {
     }
 
     /**
-     * 의존성 끊으면 좋을 것 같음
+     * 의존성 끊으면 좋을 것 같음!
      */
     public int calculateDiscountAmount(Reservation reservation) {
         if (this.equals(CHRISTMAS_DISCOUNT)) {
