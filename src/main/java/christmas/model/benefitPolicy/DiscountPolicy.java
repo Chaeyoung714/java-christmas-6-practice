@@ -1,0 +1,62 @@
+package christmas.model.benefitPolicy;
+
+import christmas.model.reservation.MenuType;
+import christmas.model.reservation.Reservation;
+import java.util.ArrayList;
+import java.util.List;
+
+public enum DiscountPolicy {
+    CHRISTMAS_DISCOUNT("크리스마스 디데이 할인", 1, 25, 1000),
+    WEEKDAY_DISCOUNT("평일 할인", 1, 31, 2023),
+    WEEKEND_DISCOUNT("주말 할인", 1, 31, 2023),
+    SPECIAL_DISCOUNT("특별 할인", 1, 23, 1000),
+    ;
+
+    private static final List<Integer> specicalDates = new ArrayList<>(
+            List.of(3, 10, 17, 24, 25, 31)
+    );
+
+    private final String name;
+    private final int startDate;
+    private final int endDate;
+    private final int defaultDiscountAmount;
+
+    DiscountPolicy(String name, int startDate, int endDate, int defaultDiscountAmount) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.defaultDiscountAmount = defaultDiscountAmount;
+    }
+
+    public boolean isAvailable(int date) {
+        return (isOngoing(date) && matchesDate(date));
+    }
+
+    private boolean matchesDate(int date) {
+        if (this.equals(CHRISTMAS_DISCOUNT)) {
+            return isOngoing(date);
+        }
+        if (this.equals(WEEKDAY_DISCOUNT)) {
+            return !Day.isWeekend(date);
+        }
+        if (this.equals(WEEKEND_DISCOUNT)) {
+            return Day.isWeekend(date);
+        }
+        if (this.equals(SPECIAL_DISCOUNT)) {
+            return specicalDates.contains(date);
+        }
+        throw new IllegalStateException("[SYSTEM] 해당하는 이름의 할인이 없습니다.");
+    }
+
+    private boolean isOngoing(int date) {
+        return date >= startDate && date <= endDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getDefaultDiscountAmount() {
+        return defaultDiscountAmount;
+    }
+}
