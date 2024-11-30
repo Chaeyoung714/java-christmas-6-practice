@@ -32,7 +32,6 @@ public enum DiscountPolicy {
         return (isOngoing(date) && matchesDate(date));
     }
 
-
     private boolean matchesDate(int date) {
         if (this.equals(CHRISTMAS_DISCOUNT)) {
             return isOngoing(date);
@@ -53,26 +52,11 @@ public enum DiscountPolicy {
         return date >= startDate && date <= endDate;
     }
 
-    /**
-     * 의존성 끊으면 좋을 것 같음!
-     */
-    public int calculateDiscountAmount(Reservation reservation) {
-        if (this.equals(CHRISTMAS_DISCOUNT)) {
-            return this.defaultDiscountAmount + (100 * (reservation.getDate() - 1));
-        }
-        if (this.equals(WEEKDAY_DISCOUNT)) {
-            return this.defaultDiscountAmount * reservation.calculateOrderAmountOf(MenuType.DESSERT);
-        }
-        if (this.equals(WEEKEND_DISCOUNT)) {
-            return this.defaultDiscountAmount * reservation.calculateOrderAmountOf(MenuType.MAIN);
-        }
-        if (this.equals(SPECIAL_DISCOUNT)) {
-            return this.defaultDiscountAmount;
-        }
-        throw new IllegalStateException("[SYSTEM] 해당하는 이름의 할인이 없습니다.");
-    }
-
     public String getName() {
         return name;
+    }
+
+    public int getDefaultDiscountAmount() {
+        return defaultDiscountAmount;
     }
 }

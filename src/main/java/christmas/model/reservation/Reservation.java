@@ -1,6 +1,7 @@
 package christmas.model.reservation;
 
 import java.util.List;
+import org.mockito.internal.matchers.Or;
 
 public class Reservation {
     private final int date;
@@ -33,6 +34,10 @@ public class Reservation {
             }
         }
         return totalAmount;
+    }
+
+    public boolean hasOrderMatchingMenuType(MenuType menuType) {
+        return calculateOrderAmountOf(menuType) > 0;
     }
 
     public List<Order> getOrders() {

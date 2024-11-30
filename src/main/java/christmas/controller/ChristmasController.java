@@ -5,6 +5,7 @@ import christmas.dto.ReservationResultDto;
 import christmas.model.benefit.Badge;
 import christmas.model.benefit.BenefitHistories;
 import christmas.model.reservation.Reservation;
+import christmas.service.BadgeService;
 import christmas.service.BenefitService;
 import christmas.service.OrderService;
 import christmas.view.ErrorOutputView;
@@ -18,13 +19,15 @@ public class ChristmasController {
     private final OutputView outputView;
     private final OrderService orderService;
     private final BenefitService benefitService;
+    private final BadgeService badgeService;
 
     public ChristmasController(InputHandler inputHandler, OutputView outputView, OrderService orderService,
-                               BenefitService benefitService) {
+                               BenefitService benefitService, BadgeService badgeService) {
         this.inputHandler = inputHandler;
         this.outputView = outputView;
         this.orderService = orderService;
         this.benefitService = benefitService;
+        this.badgeService = badgeService;
     }
 
     public void run() {
@@ -47,7 +50,7 @@ public class ChristmasController {
 
     private BenefitResultDto applyBenefit(Reservation reservation) {
         BenefitHistories benefitHistories = benefitService.applyBenefit(reservation);
-        Optional<Badge> badge = benefitService.attachBadge(benefitHistories);
+        Optional<Badge> badge = badgeService.attachBadge(benefitHistories);
         return new BenefitResultDto(benefitHistories, badge);
     }
 
