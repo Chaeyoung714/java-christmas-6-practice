@@ -5,27 +5,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import christmas.model.benefit.BenefitHistories;
 import christmas.model.benefit.DiscountPolicy;
 import christmas.model.benefit.GiftPolicy;
-import christmas.model.reservation.Menu;
 import christmas.model.reservation.Order;
 import christmas.model.reservation.Reservation;
 import christmas.repository.MenuRepository;
+import christmas.repository.MenuRepositoryImpl;
 import christmas.service.BenefitService;
-import christmas.service.MenuService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class FunctionTest {
-    private static final MenuRepository menuRepository = new MenuRepository();
-    private static final BenefitService benefitService = new BenefitService(menuRepository);
-    private static final MenuService menuService = new MenuService(menuRepository);
-
-    @BeforeAll
-    static void setUp() {
-        menuService.registerMenus();
-    }
+    private final MenuRepository menuRepository = new MenuRepositoryImpl();
+    private final BenefitService benefitService = new BenefitService(menuRepository);
 
     @Test
     void 스페셜할인과_크리스마스할인과_평일할인_증정이벤트_중복_테스트() {
@@ -35,7 +27,7 @@ public class FunctionTest {
         Order order3 = new Order(menuRepository.findByName("초코케이크"), 2);
         Order order4 = new Order(menuRepository.findByName("제로콜라"), 1);
 
-        Reservation reservation = new Reservation(3, new ArrayList<>(List.of(order1, order2, order3, order4)));
+        Reservation reservation = Reservation.from(3, new ArrayList<>(List.of(order1, order2, order3, order4)));
         BenefitHistories benefitHistories = benefitService.applyBenefit(reservation);
         assertThat(benefitHistories.getDiscountHistories().size()).isEqualTo(3);
         assertThat(benefitHistories.getGiftHistories().size()).isEqualTo(1);
@@ -52,7 +44,7 @@ public class FunctionTest {
         Order order1 = new Order(menuRepository.findByName("타파스"), 1);
         Order order2 = new Order(menuRepository.findByName("제로콜라"), 1);
 
-        Reservation reservation = new Reservation(26, new ArrayList<>(List.of(order1, order2)));
+        Reservation reservation = Reservation.from(26, new ArrayList<>(List.of(order1, order2)));
         BenefitHistories benefitHistories = benefitService.applyBenefit(reservation);
 
         assertThat(benefitHistories.getDiscountHistories()).isEmpty();

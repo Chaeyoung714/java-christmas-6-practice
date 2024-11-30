@@ -18,7 +18,7 @@ public class BenefitHistories {
     }
 
     public void updateGiftHistory(GiftPolicy giftPolicy, Menu gift, int amount) {
-        this.giftHistories.add(new GiftHistory(giftPolicy, gift, amount));
+        this.giftHistories.add(GiftHistory.from(giftPolicy, gift, amount));
     }
 
     public int calculateTotalBenefitAmount() {

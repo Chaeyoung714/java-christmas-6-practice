@@ -17,6 +17,10 @@ public class Order {
         return menu.getPrice();
     }
 
+    public String getMenuName() {
+        return menu.getName();
+    }
+
     public Menu getMenu() {
         return menu;
     }

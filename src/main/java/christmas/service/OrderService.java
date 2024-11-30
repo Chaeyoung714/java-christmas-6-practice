@@ -8,7 +8,6 @@ import christmas.repository.MenuRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.mockito.internal.matchers.Or;
 
 public class OrderService {
     private final MenuRepository menuRepository;
@@ -17,9 +16,6 @@ public class OrderService {
         this.menuRepository = menuRepository;
     }
 
-    /**
-     * 검증 단계 필요함
-     */
     public Reservation registerOrders(int date, Map<String, Integer> ordersInput) {
         try {
             List<Order> orders = new ArrayList<>();
@@ -28,7 +24,7 @@ public class OrderService {
                 orders.add(new Order(menu, ordersInput.get(menuName)));
             }
             validateOrders(orders);
-            return new Reservation(date, orders);
+            return Reservation.from(date, orders);
         } catch (IllegalStateException | IllegalArgumentException e) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }

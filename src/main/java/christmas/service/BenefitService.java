@@ -38,7 +38,7 @@ public class BenefitService {
 
     private void applyGift(Reservation reservation, BenefitHistories benefitHistories) {
         for (GiftPolicy giftPolicy : GiftPolicy.values()) {
-            if (giftPolicy.isAvailable(reservation.calculateTotalPrice())) {
+            if (giftPolicy.isAvailable(reservation.getTotalOrderAmount())) {
                 GiftDto gift = giftPolicy.findGift();
                 Menu giftMenu = menuRepository.findByName(gift.name());
                 benefitHistories.updateGiftHistory(giftPolicy, giftMenu, gift.amount());
@@ -47,7 +47,7 @@ public class BenefitService {
     }
 
     private boolean isAvailable(Reservation reservation) {
-        return reservation.calculateTotalPrice() >= 10000;
+        return reservation.getTotalOrderAmount() >= 10000;
     }
 
     public Optional<Badge> attachBadge(BenefitHistories benefitHistories) {

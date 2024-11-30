@@ -17,4 +17,8 @@ public class DiscountHistory {
     public int getDiscountAmount() {
         return discountAmount;
     }
+
+    public String getDiscountPolicyName() {
+        return discountPolicy.getName();
+    }
 }

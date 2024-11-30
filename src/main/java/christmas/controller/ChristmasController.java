@@ -1,10 +1,11 @@
 package christmas.controller;
 
+import christmas.dto.BenefitResultDto;
+import christmas.dto.ReservationResultDto;
 import christmas.model.benefit.Badge;
 import christmas.model.benefit.BenefitHistories;
 import christmas.model.reservation.Reservation;
 import christmas.service.BenefitService;
-import christmas.service.MenuService;
 import christmas.service.OrderService;
 import christmas.view.ErrorOutputView;
 import christmas.view.InputHandler;
@@ -15,26 +16,22 @@ import java.util.Optional;
 public class ChristmasController {
     private final InputHandler inputHandler;
     private final OutputView outputView;
-    private final MenuService menuService;
     private final OrderService orderService;
     private final BenefitService benefitService;
 
-    public ChristmasController(InputHandler inputHandler, OutputView outputView, MenuService menuService,
-                               OrderService orderService, BenefitService benefitService) {
+    public ChristmasController(InputHandler inputHandler, OutputView outputView, OrderService orderService,
+                               BenefitService benefitService) {
         this.inputHandler = inputHandler;
         this.outputView = outputView;
-        this.menuService = menuService;
         this.orderService = orderService;
         this.benefitService = benefitService;
     }
 
     public void run() {
-        menuService.registerMenus();
         int date = inputHandler.inputDate();
         Reservation reservation = registerReservation(date);
-        BenefitHistories benefitHistories = benefitService.applyBenefit(reservation);
-        Optional<Badge> badge = benefitService.attachBadge(benefitHistories);
-        outputView.printResult(reservation, benefitHistories, badge);
+        BenefitResultDto benefitResultDto = applyBenefit(reservation);
+        outputReservationResult(reservation, benefitResultDto);
     }
 
     private Reservation registerReservation(int date) {
@@ -46,5 +43,18 @@ public class ChristmasController {
                 ErrorOutputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private BenefitResultDto applyBenefit(Reservation reservation) {
+        BenefitHistories benefitHistories = benefitService.applyBenefit(reservation);
+        Optional<Badge> badge = benefitService.attachBadge(benefitHistories);
+        return new BenefitResultDto(benefitHistories, badge);
+    }
+
+    private void outputReservationResult(Reservation reservation, BenefitResultDto benefitResultDto) {
+        BenefitHistories benefitHistories = benefitResultDto.benefitHistories();
+        Optional<Badge> badge = benefitResultDto.badge();
+        ReservationResultDto reservationResultDto = ReservationResultDto.from(reservation, benefitHistories, badge);
+        outputView.printResult(reservationResultDto);
     }
 }

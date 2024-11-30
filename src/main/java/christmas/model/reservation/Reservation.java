@@ -5,13 +5,19 @@ import java.util.List;
 public class Reservation {
     private final int date;
     private final List<Order> orders;
+    private final int totalOrderAmount;
 
-    public Reservation(int date, List<Order> orders) {
+    private Reservation(int date, List<Order> orders, int totalOrderAmount) {
         this.date = date;
         this.orders = orders;
+        this.totalOrderAmount = totalOrderAmount;
     }
 
-    public int calculateTotalPrice() {
+    public static Reservation from(int date, List<Order> orders) {
+        return new Reservation(date, orders, calculateTotalPrice(orders));
+    }
+
+    private static int calculateTotalPrice(List<Order> orders) {
         int totalPrice = 0;
         for (Order order : orders) {
             totalPrice += order.getAmount() * order.getMenuPrice();
@@ -35,5 +41,9 @@ public class Reservation {
 
     public int getDate() {
         return date;
+    }
+
+    public int getTotalOrderAmount() {
+        return totalOrderAmount;
     }
 }

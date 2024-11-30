@@ -1,88 +1,83 @@
 package christmas.view;
 
-import christmas.model.benefit.Badge;
-import christmas.model.benefit.BenefitHistories;
-import christmas.model.benefit.DiscountHistory;
-import christmas.model.benefit.GiftHistory;
-import christmas.model.benefit.GiftPolicy;
-import christmas.model.reservation.Order;
-import christmas.model.reservation.Reservation;
-import java.util.List;
+import christmas.dto.BenefitHistoriesDto;
+import christmas.dto.DiscountHistoryDtos.DiscountHistoryDto;
+import christmas.dto.GiftHistoryDtos;
+import christmas.dto.GiftHistoryDtos.GiftHistoryDto;
+import christmas.dto.PriceDto;
+import christmas.dto.ReservationDtos;
+import christmas.dto.ReservationDtos.ReservationDto;
+import christmas.dto.ReservationResultDto;
 import java.util.Optional;
 
 public class OutputView {
-    public void printResult(Reservation reservation, BenefitHistories benefitHistories, Optional<Badge> badge) {
-        printStartLine(reservation.getDate());
-        printOrders(reservation);
-        printBenefitHistories(benefitHistories);
-        printPrice(reservation, benefitHistories);
-        printBadge(badge);
+    public void printResult(ReservationResultDto dto) {
+        printStartLine(dto.reservations().date());
+        printOrders(dto.reservations());
+        printBenefitHistories(dto.benefitHistories());
+        printPrice(dto.priceInfo());
+        printBadge(dto.badgeName());
     }
 
     private void printStartLine(int date) {
         System.out.println(String.format("12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!", date));
     }
 
-    private void printOrders(Reservation reservation) {
+    private void printOrders(ReservationDtos dtos) {
         System.out.println(System.lineSeparator() + "<주문 메뉴>");
-        for (Order order : reservation.getOrders()) {
-            System.out.println(String.format("%s %d개", order.getMenu().getName(), order.getAmount()));
+        for (ReservationDto dto : dtos.reservations()) {
+            System.out.println(String.format("%s %d개", dto.menuName(), dto.amount()));
         }
 
         System.out.println(System.lineSeparator() + "<할인 전 총주문 금액>");
-        System.out.println(String.format("%,d원", reservation.calculateTotalPrice()));
+        System.out.println(String.format("%,d원", dtos.totalOrderAmount()));
     }
 
-    private void printBenefitHistories(BenefitHistories benefitHistories) {
-        printGiftHistories(benefitHistories.getGiftHistories());
+    private void printBenefitHistories(BenefitHistoriesDto dto) {
+        printGiftHistories(dto.giftHistories());
 
         System.out.println(System.lineSeparator() + "<혜택 내역>");
-        if (benefitHistories.getGiftHistories().isEmpty() && benefitHistories.getDiscountHistories().isEmpty()) {
+        if (dto.giftHistories().giftHistories().isEmpty() && dto.discountHistories().discountHistories().isEmpty()) {
             System.out.println("없음");
             return;
         }
-        for (DiscountHistory discountHistory : benefitHistories.getDiscountHistories()) {
+        for (DiscountHistoryDto discountHistoryDto : dto.discountHistories().discountHistories()) {
             System.out.println(String.format("%s: -%,d원"
-                    , discountHistory.getDiscountPolicy().getName(), discountHistory.getDiscountAmount()));
+                    , discountHistoryDto.policyName(), discountHistoryDto.discountAmount()));
         }
         System.out.println(String.format("%s: -%,d원"
-                , GiftPolicy.getPolicyName(), benefitHistories.calculateTotalGiftPrice()));
+                , dto.giftHistories().policyName(), dto.giftHistories().totalGiftPrice()));
     }
 
-    private void printGiftHistories(List<GiftHistory> giftHistories) {
+    private void printGiftHistories(GiftHistoryDtos dtos) {
         System.out.println(System.lineSeparator() + "<증정 메뉴>");
-        if (giftHistories.isEmpty()) {
+        if (dtos.giftHistories().isEmpty()) {
             System.out.println("없음");
             return;
         }
-        for (GiftHistory giftHistory : giftHistories) {
-            System.out.println(String.format("%s %d개", giftHistory.getGift().getName(), giftHistory.getAmount()));
+        for (GiftHistoryDto dto : dtos.giftHistories()) {
+            System.out.println(String.format("%s %d개", dto.giftName(), dto.giftAmount()));
         }
     }
 
-    private void printPrice(Reservation reservation, BenefitHistories benefitHistories) {
-        int totalOrderPrice = reservation.calculateTotalPrice();
-        int totalBenefitPrice = benefitHistories.calculateTotalBenefitAmount();
-        int totalGiftBenefitPrice = benefitHistories.calculateTotalGiftPrice();
-
+    private void printPrice(PriceDto dto) {
         System.out.println(System.lineSeparator() + "<총혜택 금액>");
         String printingFormat = "-%,d원";
-        if (totalBenefitPrice == 0) {
+        if (dto.totalBenefitPrice() == 0) {
             printingFormat = "%d원";
         }
-        System.out.println(String.format(printingFormat, totalBenefitPrice));
+        System.out.println(String.format(printingFormat, dto.totalBenefitPrice()));
 
         System.out.println(System.lineSeparator() + "<할인 후 예상 결제 금액>");
-        System.out.println(String.format("%,d원", totalOrderPrice - totalBenefitPrice + totalGiftBenefitPrice));
+        System.out.println(String.format("%,d원", dto.totalPaymentPrice()));
     }
 
-    private void printBadge(Optional<Badge> badge) {
+    private void printBadge(Optional<String> badgeName) {
         System.out.println(System.lineSeparator() + "<12월 이벤트 배지>");
-        if (badge.isEmpty()) {
+        if (badgeName.isEmpty()) {
             System.out.println("없음");
             return;
         }
-        System.out.println(badge.get().getName());
-
+        System.out.println(badgeName.get());
     }
 }
