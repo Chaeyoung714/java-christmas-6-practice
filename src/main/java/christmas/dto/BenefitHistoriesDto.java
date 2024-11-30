@@ -6,7 +6,7 @@ public record BenefitHistoriesDto(DiscountHistoryDtos discountHistories, GiftHis
 
     public static BenefitHistoriesDto from(BenefitHistories benefitHistories) {
         DiscountHistoryDtos discountHistoryDtos = DiscountHistoryDtos.of(benefitHistories.getDiscountHistories());
-        GiftHistoryDtos giftHistoryDtos = GiftHistoryDtos.of(benefitHistories.getGiftHistories(), benefitHistories.calculateTotalGiftPrice());
+        GiftHistoryDtos giftHistoryDtos = GiftHistoryDtos.of(benefitHistories.getGiftHistories(), benefitHistories.getTotalGiftPrice());
         return new BenefitHistoriesDto(discountHistoryDtos, giftHistoryDtos);
     }
 }

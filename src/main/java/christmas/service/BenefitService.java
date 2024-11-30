@@ -3,11 +3,15 @@ package christmas.service;
 import christmas.dto.GiftDto;
 import christmas.model.benefit.Badge;
 import christmas.model.benefit.BenefitHistories;
+import christmas.model.benefit.DiscountHistory;
 import christmas.model.benefit.DiscountPolicy;
+import christmas.model.benefit.GiftHistory;
 import christmas.model.benefit.GiftPolicy;
 import christmas.model.reservation.Menu;
 import christmas.model.reservation.Reservation;
 import christmas.repository.MenuRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class BenefitService {
@@ -18,32 +22,35 @@ public class BenefitService {
     }
 
     public BenefitHistories applyBenefit(Reservation reservation) {
-        BenefitHistories benefitHistories = new BenefitHistories();
         if (!isAvailable(reservation)) {
-            return benefitHistories;
+            return new BenefitHistories();
         }
-        applyDiscount(reservation, benefitHistories);
-        applyGift(reservation, benefitHistories);
-        return benefitHistories;
+        List<DiscountHistory> discountHistories = applyDiscount(reservation);
+        List<GiftHistory> giftHistories = applyGift(reservation);
+        return BenefitHistories.from(discountHistories, giftHistories);
     }
 
-    private void applyDiscount(Reservation reservation, BenefitHistories benefitHistories) {
+    private List<DiscountHistory> applyDiscount(Reservation reservation) {
+        List<DiscountHistory> discountHistories = new ArrayList<>();
         for (DiscountPolicy discountPolicy : DiscountPolicy.values()) {
             if (discountPolicy.isAvailable(reservation.getDate())) {
                 int discountAmount = discountPolicy.calculateDiscountAmount(reservation);
-                benefitHistories.updateDiscountHistory(discountPolicy, discountAmount);
+                discountHistories.add(new DiscountHistory(discountPolicy, discountAmount));
             }
         }
+        return discountHistories;
     }
 
-    private void applyGift(Reservation reservation, BenefitHistories benefitHistories) {
+    private List<GiftHistory> applyGift(Reservation reservation) {
+        List<GiftHistory> giftHistories = new ArrayList<>();
         for (GiftPolicy giftPolicy : GiftPolicy.values()) {
             if (giftPolicy.isAvailable(reservation.getTotalOrderAmount())) {
                 GiftDto gift = giftPolicy.findGift();
                 Menu giftMenu = menuRepository.findByName(gift.name());
-                benefitHistories.updateGiftHistory(giftPolicy, giftMenu, gift.amount());
+                giftHistories.add(GiftHistory.from(giftPolicy, giftMenu, gift.amount()));
             }
         }
+        return giftHistories;
     }
 
     private boolean isAvailable(Reservation reservation) {
@@ -51,7 +58,7 @@ public class BenefitService {
     }
 
     public Optional<Badge> attachBadge(BenefitHistories benefitHistories) {
-        Optional<Badge> badge = Badge.findBadge(benefitHistories.calculateTotalBenefitAmount());
+        Optional<Badge> badge = Badge.findBadge(benefitHistories.getTotalBenefitAmount());
         return badge;
     }
 }

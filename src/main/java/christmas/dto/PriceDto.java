@@ -7,8 +7,8 @@ public record PriceDto(int totalBenefitPrice, int totalPaymentPrice) {
 
     public static PriceDto from(Reservation reservation, BenefitHistories benefitHistories) {
         int totalOrderPrice = reservation.getTotalOrderAmount();
-        int totalBenefitPrice = benefitHistories.calculateTotalBenefitAmount();
-        int totalDiscountPrice = totalBenefitPrice - benefitHistories.calculateTotalGiftPrice();
+        int totalBenefitPrice = benefitHistories.getTotalBenefitAmount();
+        int totalDiscountPrice = benefitHistories.getTotalDiscountAmount();
         return new PriceDto(totalBenefitPrice, totalOrderPrice - totalDiscountPrice);
     }
 }
