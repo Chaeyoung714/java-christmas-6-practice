@@ -29,6 +29,10 @@ public class Reservation {
         return totalAmount;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
     public int getDate() {
         return date;
     }

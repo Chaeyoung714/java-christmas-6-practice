@@ -17,6 +17,10 @@ public class GiftHistory {
         return giftPolicy;
     }
 
+    public int calculateBenefitAmount() {
+        return amount * gift.getPrice();
+    }
+
     public Menu getGift() {
         return gift;
     }

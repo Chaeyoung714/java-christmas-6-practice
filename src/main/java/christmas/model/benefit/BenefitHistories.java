@@ -21,6 +21,17 @@ public class BenefitHistories {
         this.giftHistories.add(new GiftHistory(giftPolicy, gift, amount));
     }
 
+    public int calculateTotalBenefitAmount() {
+        int totalBenefitAmount = 0;
+        for (DiscountHistory discountHistory : discountHistories) {
+            totalBenefitAmount += discountHistory.getDiscountAmount();
+        }
+        for (GiftHistory giftHistory : giftHistories) {
+            totalBenefitAmount += giftHistory.calculateBenefitAmount();
+        }
+        return totalBenefitAmount;
+    }
+
     public List<DiscountHistory> getDiscountHistories() {
         return discountHistories;
     }

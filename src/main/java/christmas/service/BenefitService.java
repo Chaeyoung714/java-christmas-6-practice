@@ -1,12 +1,14 @@
 package christmas.service;
 
 import christmas.dto.GiftDto;
+import christmas.model.benefit.Badge;
 import christmas.model.benefit.BenefitHistories;
 import christmas.model.benefit.DiscountPolicy;
 import christmas.model.benefit.GiftPolicy;
 import christmas.model.reservation.Menu;
 import christmas.model.reservation.Reservation;
 import christmas.repository.MenuRepository;
+import java.util.Optional;
 
 public class BenefitService {
     private final MenuRepository menuRepository;
@@ -46,5 +48,10 @@ public class BenefitService {
 
     private boolean isAvailable(Reservation reservation) {
         return reservation.calculateTotalPrice() >= 10000;
+    }
+
+    public Optional<Badge> attachBadge(BenefitHistories benefitHistories) {
+        Optional<Badge> badge = Badge.findBadge(benefitHistories.calculateTotalBenefitAmount());
+        return badge;
     }
 }
