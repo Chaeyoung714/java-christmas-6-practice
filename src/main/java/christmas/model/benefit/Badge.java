@@ -37,4 +37,8 @@ public enum Badge {
     public int getLimitPrice() {
         return limitPrice;
     }
+
+    public String getName() {
+        return name;
+    }
 }

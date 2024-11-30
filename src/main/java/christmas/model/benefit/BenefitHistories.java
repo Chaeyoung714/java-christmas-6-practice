@@ -26,10 +26,16 @@ public class BenefitHistories {
         for (DiscountHistory discountHistory : discountHistories) {
             totalBenefitAmount += discountHistory.getDiscountAmount();
         }
-        for (GiftHistory giftHistory : giftHistories) {
-            totalBenefitAmount += giftHistory.calculateBenefitAmount();
-        }
+        totalBenefitAmount += calculateTotalGiftPrice();
         return totalBenefitAmount;
+    }
+
+    public int calculateTotalGiftPrice() {
+        int totalGiftPrice = 0;
+        for (GiftHistory giftHistory : giftHistories) {
+            totalGiftPrice += giftHistory.calculateBenefitAmount();
+        }
+        return totalGiftPrice;
     }
 
     public List<DiscountHistory> getDiscountHistories() {

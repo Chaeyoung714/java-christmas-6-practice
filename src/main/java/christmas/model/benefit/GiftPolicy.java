@@ -1,12 +1,12 @@
 package christmas.model.benefit;
 
 import christmas.dto.GiftDto;
-import java.util.HashMap;
-import java.util.Map;
 
 public enum GiftPolicy {
     FREE_CHAMPAGNE("샴페인", 1, 120000),
     ;
+
+    private static final String policyName = "증정 이벤트";
 
     private final String giftName;
     private final int amount;
@@ -27,5 +27,9 @@ public enum GiftPolicy {
 
     public GiftDto findGift() {
         return new GiftDto(giftName, amount);
+    }
+
+    public static String getPolicyName() {
+        return policyName;
     }
 }
