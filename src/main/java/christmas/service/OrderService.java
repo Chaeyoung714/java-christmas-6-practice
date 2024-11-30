@@ -1,8 +1,8 @@
 package christmas.service;
 
-import christmas.model.Menu;
-import christmas.model.Order;
-import christmas.model.Reservation;
+import christmas.model.reservation.Menu;
+import christmas.model.reservation.Order;
+import christmas.model.reservation.Reservation;
 import christmas.repository.MenuRepository;
 import java.util.ArrayList;
 import java.util.List;

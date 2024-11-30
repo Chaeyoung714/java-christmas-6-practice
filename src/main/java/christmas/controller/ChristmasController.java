@@ -1,6 +1,8 @@
 package christmas.controller;
 
-import christmas.model.Reservation;
+import christmas.model.benefit.BenefitHistories;
+import christmas.model.reservation.Reservation;
+import christmas.service.BenefitService;
 import christmas.service.MenuService;
 import christmas.service.OrderService;
 import christmas.view.InputHandler;
@@ -12,13 +14,15 @@ public class ChristmasController {
     private final OutputView outputView;
     private final MenuService menuService;
     private final OrderService orderService;
+    private final BenefitService benefitService;
 
     public ChristmasController(InputHandler inputHandler, OutputView outputView, MenuService menuService,
-                               OrderService orderService) {
+                               OrderService orderService, BenefitService benefitService) {
         this.inputHandler = inputHandler;
         this.outputView = outputView;
         this.menuService = menuService;
         this.orderService = orderService;
+        this.benefitService = benefitService;
     }
 
     public void run() {
@@ -26,6 +30,7 @@ public class ChristmasController {
         int date = inputHandler.inputDate();
         Map<String, Integer> ordersInput = inputHandler.inputOrders();
         Reservation reservation = orderService.registerOrders(date, ordersInput);
+        BenefitHistories benefitHistories = benefitService.applyBenefit(reservation);
 
     }
 }

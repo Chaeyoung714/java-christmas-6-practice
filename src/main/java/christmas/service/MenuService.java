@@ -1,11 +1,11 @@
 package christmas.service;
 
-import static christmas.model.MenuType.APPETIZER;
-import static christmas.model.MenuType.BEVERAGE;
-import static christmas.model.MenuType.DESSERT;
-import static christmas.model.MenuType.MAIN;
+import static christmas.model.reservation.MenuType.APPETIZER;
+import static christmas.model.reservation.MenuType.BEVERAGE;
+import static christmas.model.reservation.MenuType.DESSERT;
+import static christmas.model.reservation.MenuType.MAIN;
 
-import christmas.model.Menu;
+import christmas.model.reservation.Menu;
 import christmas.repository.MenuRepository;
 
 public class MenuService {

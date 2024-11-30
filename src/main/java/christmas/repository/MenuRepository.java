@@ -1,6 +1,6 @@
 package christmas.repository;
 
-import christmas.model.Menu;
+import christmas.model.reservation.Menu;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class MenuRepository {
 
     public Menu findByName(String menuName) {
         return menus.stream()
-                .filter(crew -> crew.getName().equals(menuName))
+                .filter(menu -> menu.getName().equals(menuName))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("[SYSTEM] 해당하는 이름의 메뉴가 없습니다."));
     }

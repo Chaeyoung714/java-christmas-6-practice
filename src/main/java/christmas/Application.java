@@ -2,6 +2,7 @@ package christmas;
 
 import christmas.controller.ChristmasController;
 import christmas.repository.MenuRepository;
+import christmas.service.BenefitService;
 import christmas.service.MenuService;
 import christmas.service.OrderService;
 import christmas.view.InputHandler;
@@ -16,6 +17,7 @@ public class Application {
                 , new OutputView()
                 , new MenuService(menuRepository)
                 , new OrderService(menuRepository)
+                , new BenefitService(menuRepository)
         );
 
         controller.run();
