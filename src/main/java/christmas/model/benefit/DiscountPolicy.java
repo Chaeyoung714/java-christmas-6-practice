@@ -32,6 +32,7 @@ public enum DiscountPolicy {
         return (isOngoing(date) && matchesDate(date));
     }
 
+
     private boolean matchesDate(int date) {
         if (this.equals(CHRISTMAS_DISCOUNT)) {
             return isOngoing(date);

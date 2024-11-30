@@ -1,5 +1,7 @@
 package christmas.view;
 
+import java.util.Map;
+
 public class InputValidator {
     public static void validateDate(String dateInput) {
         try {
@@ -12,21 +14,32 @@ public class InputValidator {
         }
     }
 
-    /**
-     * 메뉴 개수가 1 이상의 정수인지 확인한다.
-     * 다른 검증조건 체크 필요함
-     */
-    public static void validateOrders(String ordersInput) {
-        try {
-            String[] orders = ordersInput.split(",", -1);
-            for (String order : orders) {
-                String[] menuAndAmount = order.split("-", -1);
-                int amount = Integer.parseInt(menuAndAmount[1]);
-                if (amount < 1) {
-                    throw new IllegalArgumentException();
-                }
-            }
-        } catch (NumberFormatException e) {
+    public static void validateOrder(String[] menuAndAmount) {
+        validateOrderFormat(menuAndAmount);
+        validateMenuName(menuAndAmount[0]);
+        validateAmount(menuAndAmount[1]);
+    }
+
+    private static void validateMenuName(String menuName) {
+        if (menuName == null || menuName.isBlank()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private static void validateAmount(String amount) {
+        if (Integer.parseInt(amount) < 1) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private static void validateOrderFormat(String[] menuAndAmount) {
+        if (menuAndAmount.length != 2) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static void validateNameDuplication(String menuName, Map<String, Integer> ordersMap) {
+        if (ordersMap.keySet().contains(menuName)) {
             throw new IllegalArgumentException();
         }
     }

@@ -6,6 +6,7 @@ import christmas.model.reservation.Reservation;
 import christmas.service.BenefitService;
 import christmas.service.MenuService;
 import christmas.service.OrderService;
+import christmas.view.ErrorOutputView;
 import christmas.view.InputHandler;
 import christmas.view.OutputView;
 import java.util.Map;
@@ -30,10 +31,20 @@ public class ChristmasController {
     public void run() {
         menuService.registerMenus();
         int date = inputHandler.inputDate();
-        Map<String, Integer> ordersInput = inputHandler.inputOrders();
-        Reservation reservation = orderService.registerOrders(date, ordersInput);
+        Reservation reservation = registerReservation(date);
         BenefitHistories benefitHistories = benefitService.applyBenefit(reservation);
         Optional<Badge> badge = benefitService.attachBadge(benefitHistories);
         outputView.printResult(reservation, benefitHistories, badge);
+    }
+
+    private Reservation registerReservation(int date) {
+        while (true) {
+            try {
+                Map<String, Integer> ordersInput = inputHandler.inputOrders();
+                return orderService.registerOrders(date, ordersInput);
+            } catch (IllegalArgumentException e) {
+                ErrorOutputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 }
